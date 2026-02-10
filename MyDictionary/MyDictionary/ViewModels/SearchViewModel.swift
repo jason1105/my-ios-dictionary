@@ -9,6 +9,7 @@ class SearchViewModel: ObservableObject {
     
     private let dictionaryService = DictionaryService.shared
     private var cancellables = Set<AnyCancellable>()
+    private var suppressSuggestions = false
     let navigationManager = NavigationManager()
     
     init() {
@@ -22,6 +23,10 @@ class SearchViewModel: ObservableObject {
     }
     
     private func updateSuggestions(for text: String) {
+        if suppressSuggestions {
+            suppressSuggestions = false
+            return
+        }
         if text.isEmpty {
             suggestions = []
         } else {
@@ -34,6 +39,7 @@ class SearchViewModel: ObservableObject {
             selectedWord = foundWord
             showWordDetail = true
             navigationManager.addToHistory(word)
+            suppressSuggestions = true
             searchText = word
             suggestions = []
         }
@@ -67,6 +73,7 @@ class SearchViewModel: ObservableObject {
         if let foundWord = dictionaryService.searchWord(word) {
             selectedWord = foundWord
             showWordDetail = true
+            suppressSuggestions = true
             searchText = word
             suggestions = []
             if addToHistory {
