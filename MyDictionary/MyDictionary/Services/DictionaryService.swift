@@ -9,6 +9,8 @@ class DictionaryService: DictionaryProvider {
     private var wordList: [String] = []
     // Set for O(1) word existence checks
     private var wordSet: Set<String> = []
+    // Maximum allowed difference in word length for fuzzy matching
+    private let maxLengthDifferenceForFuzzyMatch = 2
     
     private init() {
         loadWordList()
@@ -88,8 +90,8 @@ class DictionaryService: DictionaryProvider {
         
         // Only apply Levenshtein on a bounded subset of words near the input alphabetically
         let startIdx = lowerBound(for: String(lowercasedInput.prefix(1)))
-        let endPrefix = String(lowercasedInput.prefix(1)).nextAlphaPrefix()
-        let endIdx = endPrefix != nil ? min(lowerBound(for: endPrefix!), wordList.count) : wordList.count
+        let endIdx = String(lowercasedInput.prefix(1)).nextAlphaPrefix()
+            .map { min(lowerBound(for: $0), wordList.count) } ?? wordList.count
         
         let candidateRange = startIdx..<min(endIdx, wordList.count)
         var fuzzyMatches: [(word: String, distance: Int)] = []
@@ -97,8 +99,7 @@ class DictionaryService: DictionaryProvider {
         for i in candidateRange {
             let word = wordList[i]
             if resultSet.contains(word) { continue }
-            // Only consider words with similar length to avoid unnecessary computation
-            if abs(word.count - lowercasedInput.count) > 2 { continue }
+            if abs(word.count - lowercasedInput.count) > maxLengthDifferenceForFuzzyMatch { continue }
             let distance = levenshteinDistance(lowercasedInput, word)
             if distance <= 2 {
                 fuzzyMatches.append((word, distance))
@@ -191,6 +192,7 @@ private extension String {
     func nextAlphaPrefix() -> String? {
         guard let lastChar = self.last,
               let scalar = lastChar.unicodeScalars.first,
+              scalar.value >= 0x61, scalar.value < 0x7A, // 'a' through 'y' only
               let nextScalar = Unicode.Scalar(scalar.value + 1) else {
             return nil
         }
