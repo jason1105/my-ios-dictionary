@@ -18,6 +18,7 @@
 		AA0000110000000000000001 /* dictionary_data.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0000120000000000000001 /* dictionary_data.json */; };
 		AA0000130000000000000001 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000140000000000000001 /* NavigationManager.swift */; };
 		AA0000150000000000000001 /* ClickableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000160000000000000001 /* ClickableText.swift */; };
+		AA00002B0000000000000001 /* words_alpha.txt in Resources */ = {isa = PBXBuildFile; fileRef = AA00002C0000000000000001 /* words_alpha.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		AA0000120000000000000001 /* dictionary_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = dictionary_data.json; sourceTree = "<group>"; };
 		AA0000140000000000000001 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		AA0000160000000000000001 /* ClickableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableText.swift; sourceTree = "<group>"; };
+		AA00002C0000000000000001 /* words_alpha.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = words_alpha.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				AA0000120000000000000001 /* dictionary_data.json */,
+				AA00002C0000000000000001 /* words_alpha.txt */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 			files = (
 				AA0000050000000000000001 /* Assets.xcassets in Resources */,
 				AA0000110000000000000001 /* dictionary_data.json in Resources */,
+				AA00002B0000000000000001 /* words_alpha.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
