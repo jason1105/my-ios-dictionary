@@ -61,13 +61,7 @@ class SearchViewModel: ObservableObject {
             suppressSuggestions = true
             searchText = word
             suggestions = []
-            
-            // Auto-select the first available tab
-            if foundWord != nil {
-                selectedTab = .dictionary
-            } else if foundSynonym != nil {
-                selectedTab = .synonym
-            }
+            selectFirstAvailableTab()
         }
     }
     
@@ -112,13 +106,15 @@ class SearchViewModel: ObservableObject {
             if addToHistory {
                 navigationManager.addToHistory(word)
             }
-            
-            // Auto-select the first available tab
-            if foundWord != nil {
-                selectedTab = .dictionary
-            } else if foundSynonym != nil {
-                selectedTab = .synonym
-            }
+            selectFirstAvailableTab()
+        }
+    }
+    
+    private func selectFirstAvailableTab() {
+        if selectedWord != nil {
+            selectedTab = .dictionary
+        } else if synonymHTML != nil {
+            selectedTab = .synonym
         }
     }
     

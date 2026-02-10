@@ -101,12 +101,6 @@ struct ContentView: View {
                         })
                     } else if viewModel.selectedTab == .synonym, let html = viewModel.synonymHTML {
                         HTMLContentView(htmlContent: html)
-                    } else if let word = viewModel.selectedWord {
-                        WordDetailView(word: word, onWordTap: { tappedWord in
-                            viewModel.lookupWordFromText(tappedWord)
-                        })
-                    } else if let html = viewModel.synonymHTML {
-                        HTMLContentView(htmlContent: html)
                     }
                 } else {
                     // Empty state
