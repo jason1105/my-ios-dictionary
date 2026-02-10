@@ -1,0 +1,314 @@
+[
+  {
+    "word": "book",
+    "partOfSpeech": "noun",
+    "nounType": "countable",
+    "definitions": [
+      {
+        "meaning": "A written or printed work consisting of pages glued or sewn together along one side and bound in covers",
+        "examples": [
+          {"sentence": "I read a book.", "difficulty": 1},
+          {"sentence": "She borrowed a book from the library.", "difficulty": 2},
+          {"sentence": "The comprehensive book provided detailed insights into quantum mechanics.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "bok",
+    "partOfSpeech": "noun",
+    "nounType": "countable",
+    "definitions": [
+      {
+        "meaning": "A type of Chinese cabbage",
+        "examples": [
+          {"sentence": "I bought some bok choy.", "difficulty": 1},
+          {"sentence": "Bok choy is a nutritious vegetable.", "difficulty": 2},
+          {"sentence": "The recipe called for fresh bok choy from the farmers market.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "gravity",
+    "partOfSpeech": "noun",
+    "nounType": "uncountable",
+    "definitions": [
+      {
+        "meaning": "The force that attracts a body toward the center of the earth, or toward any other physical body having mass",
+        "examples": [
+          {"sentence": "Gravity pulls things down.", "difficulty": 1},
+          {"sentence": "The apple fell because of gravity.", "difficulty": 2},
+          {"sentence": "Einstein's theory of general relativity revolutionized our understanding of gravity.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "agravity",
+    "partOfSpeech": "noun",
+    "nounType": "uncountable",
+    "definitions": [
+      {
+        "meaning": "A theoretical concept referring to the absence or negation of gravitational force",
+        "examples": [
+          {"sentence": "The concept of agravity is theoretical.", "difficulty": 1},
+          {"sentence": "Scientists explore agravity in their research.", "difficulty": 2},
+          {"sentence": "The hypothesis of agravity challenges conventional understanding of physics.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "antigravity",
+    "partOfSpeech": "noun",
+    "nounType": "uncountable",
+    "definitions": [
+      {
+        "meaning": "A hypothetical force opposing gravity",
+        "examples": [
+          {"sentence": "Antigravity is not real yet.", "difficulty": 1},
+          {"sentence": "Scientists explore the concept of antigravity.", "difficulty": 2},
+          {"sentence": "The theoretical framework for antigravity propulsion systems remains speculative.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "angravity",
+    "partOfSpeech": "noun",
+    "nounType": "uncountable",
+    "definitions": [
+      {
+        "meaning": "An angular or directional aspect of gravitational force (theoretical term)",
+        "examples": [
+          {"sentence": "The term angravity is rarely used.", "difficulty": 1},
+          {"sentence": "Some theories discuss angravity in relation to rotational forces.", "difficulty": 2},
+          {"sentence": "The concept of angravity explores the directional properties of gravitational fields.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "run",
+    "partOfSpeech": "verb",
+    "verbType": "intransitive",
+    "definitions": [
+      {
+        "meaning": "To move at a speed faster than a walk, never having both or all the feet on the ground at the same time",
+        "examples": [
+          {"sentence": "I run every day.", "difficulty": 1},
+          {"sentence": "She runs five miles every morning.", "difficulty": 2},
+          {"sentence": "The athlete runs with remarkable endurance and determination.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "read",
+    "partOfSpeech": "verb",
+    "verbType": "transitive",
+    "definitions": [
+      {
+        "meaning": "To look at and comprehend the meaning of written or printed matter by mentally interpreting the characters or symbols",
+        "examples": [
+          {"sentence": "I read books.", "difficulty": 1},
+          {"sentence": "He reads the newspaper every morning.", "difficulty": 2},
+          {"sentence": "She meticulously reads scientific journals to stay current with research.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "happy",
+    "partOfSpeech": "adjective",
+    "definitions": [
+      {
+        "meaning": "Feeling or showing pleasure or contentment",
+        "examples": [
+          {"sentence": "I am happy.", "difficulty": 1},
+          {"sentence": "She felt happy about her achievement.", "difficulty": 2},
+          {"sentence": "The overwhelmingly positive results made everyone exceptionally happy.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "quickly",
+    "partOfSpeech": "adverb",
+    "definitions": [
+      {
+        "meaning": "At a fast speed; rapidly",
+        "examples": [
+          {"sentence": "Run quickly!", "difficulty": 1},
+          {"sentence": "She finished her homework quickly.", "difficulty": 2},
+          {"sentence": "The emergency response team arrived quickly to assess the situation.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "understand",
+    "partOfSpeech": "verb",
+    "verbType": "transitive",
+    "definitions": [
+      {
+        "meaning": "To perceive the intended meaning of words, a language, or a speaker",
+        "examples": [
+          {"sentence": "I understand you.", "difficulty": 1},
+          {"sentence": "She understands the concept clearly.", "difficulty": 2},
+          {"sentence": "To fully understand quantum mechanics requires extensive study and contemplation.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "beautiful",
+    "partOfSpeech": "adjective",
+    "definitions": [
+      {
+        "meaning": "Pleasing the senses or mind aesthetically",
+        "examples": [
+          {"sentence": "The sunset is beautiful.", "difficulty": 1},
+          {"sentence": "She wore a beautiful dress to the party.", "difficulty": 2},
+          {"sentence": "The breathtakingly beautiful landscape captivated all who beheld it.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "think",
+    "partOfSpeech": "verb",
+    "verbType": "both",
+    "definitions": [
+      {
+        "meaning": "To have a particular opinion, belief, or idea about someone or something",
+        "examples": [
+          {"sentence": "I think it's good.", "difficulty": 1},
+          {"sentence": "She thinks the movie was excellent.", "difficulty": 2},
+          {"sentence": "Philosophers think deeply about the nature of existence and consciousness.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "school",
+    "partOfSpeech": "noun",
+    "nounType": "countable",
+    "definitions": [
+      {
+        "meaning": "An institution for educating children",
+        "examples": [
+          {"sentence": "I go to school.", "difficulty": 1},
+          {"sentence": "The school has many students.", "difficulty": 2},
+          {"sentence": "The prestigious school offers comprehensive educational programs.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "water",
+    "partOfSpeech": "noun",
+    "nounType": "uncountable",
+    "definitions": [
+      {
+        "meaning": "A colorless, transparent, odorless liquid that forms the seas, lakes, rivers, and rain",
+        "examples": [
+          {"sentence": "I drink water.", "difficulty": 1},
+          {"sentence": "Water is essential for life.", "difficulty": 2},
+          {"sentence": "The molecular composition of water consists of two hydrogen atoms bonded to one oxygen atom.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "write",
+    "partOfSpeech": "verb",
+    "verbType": "transitive",
+    "definitions": [
+      {
+        "meaning": "To mark letters, words, or other symbols on a surface, typically paper, with a pen, pencil, or similar implement",
+        "examples": [
+          {"sentence": "I write a letter.", "difficulty": 1},
+          {"sentence": "She writes stories every day.", "difficulty": 2},
+          {"sentence": "The author writes with eloquence and profound insight.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "friend",
+    "partOfSpeech": "noun",
+    "nounType": "countable",
+    "definitions": [
+      {
+        "meaning": "A person whom one knows and with whom one has a bond of mutual affection",
+        "examples": [
+          {"sentence": "She is my friend.", "difficulty": 1},
+          {"sentence": "I met my friend at the park.", "difficulty": 2},
+          {"sentence": "A true friend provides unwavering support during difficult times.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "learn",
+    "partOfSpeech": "verb",
+    "verbType": "transitive",
+    "definitions": [
+      {
+        "meaning": "To gain or acquire knowledge of or skill in something by study, experience, or being taught",
+        "examples": [
+          {"sentence": "I learn new things.", "difficulty": 1},
+          {"sentence": "She learns quickly in class.", "difficulty": 2},
+          {"sentence": "Students learn most effectively through active engagement with material.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "play",
+    "partOfSpeech": "verb",
+    "verbType": "both",
+    "definitions": [
+      {
+        "meaning": "To engage in activity for enjoyment and recreation rather than a serious or practical purpose",
+        "examples": [
+          {"sentence": "I play games.", "difficulty": 1},
+          {"sentence": "Children play in the playground.", "difficulty": 2},
+          {"sentence": "The orchestra will play a magnificent symphony tonight.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "science",
+    "partOfSpeech": "noun",
+    "nounType": "uncountable",
+    "definitions": [
+      {
+        "meaning": "The systematic study of the structure and behavior of the physical and natural world through observation and experiment",
+        "examples": [
+          {"sentence": "I like science.", "difficulty": 1},
+          {"sentence": "Science helps us understand the world.", "difficulty": 2},
+          {"sentence": "Modern science has revolutionized our understanding of the universe.", "difficulty": 3}
+        ]
+      }
+    ]
+  },
+  {
+    "word": "mathematics",
+    "partOfSpeech": "noun",
+    "nounType": "uncountable",
+    "definitions": [
+      {
+        "meaning": "The abstract science of number, quantity, and space",
+        "examples": [
+          {"sentence": "I study mathematics.", "difficulty": 1},
+          {"sentence": "Mathematics is important in daily life.", "difficulty": 2},
+          {"sentence": "Advanced mathematics provides the foundation for theoretical physics.", "difficulty": 3}
+        ]
+      }
+    ]
+  }
+]
