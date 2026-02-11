@@ -82,24 +82,8 @@ struct ContentView: View {
                     }
                     .background(Color(.systemBackground))
                 } else if viewModel.showWordDetail {
-                    // Tab picker for dictionaries
-                    if viewModel.availableTabs.count > 1 {
-                        Picker("Dictionary", selection: $viewModel.selectedTab) {
-                            ForEach(viewModel.availableTabs) { tab in
-                                Text(tab.rawValue).tag(tab)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.horizontal)
-                        .padding(.top, 4)
-                    }
-                    
-                    // Show content based on selected tab
-                    if viewModel.selectedTab == .dictionary, let word = viewModel.selectedWord {
-                        WordDetailView(word: word, onWordTap: { tappedWord in
-                            viewModel.lookupWordFromText(tappedWord)
-                        })
-                    } else if viewModel.selectedTab == .synonym, let html = viewModel.synonymHTML {
+                    // Show synonym content
+                    if let html = viewModel.synonymHTML {
                         HTMLContentView(htmlContent: html)
                     }
                 } else {
