@@ -82,9 +82,28 @@ struct ContentView: View {
                     }
                     .background(Color(.systemBackground))
                 } else if viewModel.showWordDetail {
-                    // Show synonym content
-                    if let html = viewModel.synonymHTML {
-                        HTMLContentView(htmlContent: html)
+                    // Tab picker for dictionary sources
+                    if viewModel.availableTabs.count > 1 {
+                        Picker("Dictionary", selection: $viewModel.selectedTab) {
+                            ForEach(viewModel.availableTabs) { tab in
+                                Text(tab.rawValue).tag(tab)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                    }
+                    
+                    // Show content based on selected tab
+                    switch viewModel.selectedTab {
+                    case .collins:
+                        if let html = viewModel.collinsHTML {
+                            HTMLContentView(htmlContent: html)
+                        }
+                    case .synonym:
+                        if let html = viewModel.synonymHTML {
+                            HTMLContentView(htmlContent: html)
+                        }
                     }
                 } else {
                     // Empty state

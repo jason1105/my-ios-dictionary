@@ -5,7 +5,7 @@ class DictionaryService: DictionaryProvider {
     
     // Rich dictionary with full definitions (from dictionary_data.json)
     private var richWords: [String: Word] = [:]
-    // Comprehensive sorted word list (from words_alpha.txt)
+    // Sorted word list for search suggestions
     private var wordList: [String] = []
     // Set for O(1) word existence checks
     private var wordSet: Set<String> = []
@@ -13,24 +13,9 @@ class DictionaryService: DictionaryProvider {
     private let maxLengthDifferenceForFuzzyMatch = 2
     
     private init() {
-        loadWordList()
         loadRichDictionary()
         loadSynonymWords()
-    }
-    
-    // Load the comprehensive word list from words_alpha.txt
-    private func loadWordList() {
-        guard let url = Bundle.main.url(forResource: "words_alpha", withExtension: "txt"),
-              let content = try? String(contentsOf: url, encoding: .utf8) else {
-            return
-        }
-        
-        let words = content.components(separatedBy: .newlines)
-            .map { $0.trimmingCharacters(in: .whitespaces).lowercased() }
-            .filter { !$0.isEmpty }
-        
-        wordSet = Set(words)
-        wordList = words.sorted()
+        loadCollinsWords()
     }
     
     // Load the rich dictionary with definitions from dictionary_data.json
@@ -53,6 +38,46 @@ class DictionaryService: DictionaryProvider {
         for word in SynonymDictionaryService.shared.getAllWords() {
             insertWordInSortedOrder(word.lowercased())
         }
+    }
+    
+    // Load Collins dictionary words into the word list for search suggestions
+    private func loadCollinsWords() {
+        let collinsWords = CollinsDictionaryService.shared.getAllWords()
+        // Since collinsWords is already sorted, merge it with the existing sorted wordList
+        var merged: [String] = []
+        merged.reserveCapacity(wordList.count + collinsWords.count)
+        var i = 0, j = 0
+        while i < wordList.count && j < collinsWords.count {
+            let w = collinsWords[j].lowercased()
+            if wordList[i] < w {
+                merged.append(wordList[i])
+                i += 1
+            } else if wordList[i] > w {
+                if !wordSet.contains(w) {
+                    wordSet.insert(w)
+                    merged.append(w)
+                }
+                j += 1
+            } else {
+                // Equal - keep existing, skip duplicate
+                merged.append(wordList[i])
+                i += 1
+                j += 1
+            }
+        }
+        while i < wordList.count {
+            merged.append(wordList[i])
+            i += 1
+        }
+        while j < collinsWords.count {
+            let w = collinsWords[j].lowercased()
+            if !wordSet.contains(w) {
+                wordSet.insert(w)
+                merged.append(w)
+            }
+            j += 1
+        }
+        wordList = merged
     }
     
     // Insert a word into the sorted word list if not already present

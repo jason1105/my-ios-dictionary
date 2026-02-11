@@ -2,6 +2,7 @@ import Foundation
 
 // Enum representing available dictionary tabs
 enum DictionaryTab: String, CaseIterable, Identifiable {
+    case collins = "Collins"
     case synonym = "Synonym"
 
     var id: String { rawValue }

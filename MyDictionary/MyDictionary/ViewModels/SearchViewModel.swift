@@ -5,11 +5,13 @@ class SearchViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var suggestions: [String] = []
     @Published var showWordDetail: Bool = false
-    @Published var selectedTab: DictionaryTab = .synonym
+    @Published var selectedTab: DictionaryTab = .collins
     @Published var synonymHTML: String?
+    @Published var collinsHTML: String?
 
     private let dictionaryService = DictionaryService.shared
     private let synonymService = SynonymDictionaryService.shared
+    private let collinsService = CollinsDictionaryService.shared
     private var cancellables = Set<AnyCancellable>()
     private var suppressSuggestions = false
     let navigationManager = NavigationManager()
@@ -17,6 +19,9 @@ class SearchViewModel: ObservableObject {
     // Compute which tabs have content for the current word
     var availableTabs: [DictionaryTab] {
         var tabs: [DictionaryTab] = []
+        if collinsHTML != nil {
+            tabs.append(.collins)
+        }
         if synonymHTML != nil {
             tabs.append(.synonym)
         }
@@ -46,25 +51,23 @@ class SearchViewModel: ObservableObject {
     }
     
     func selectWord(_ word: String) {
-        let foundSynonym = synonymService.searchWord(word)
+        guard populateContent(for: word) else { return }
 
-        if foundSynonym != nil {
-            synonymHTML = foundSynonym
-            showWordDetail = true
-            navigationManager.addToHistory(word)
-            suppressSuggestions = true
-            searchText = word
-            suggestions = []
-            selectedTab = .synonym
-        }
+        showWordDetail = true
+        navigationManager.addToHistory(word)
+        suppressSuggestions = true
+        searchText = word
+        suggestions = []
     }
     
     func searchCurrentText() {
         guard !searchText.isEmpty else { return }
 
-        let synonym = synonymService.searchWord(searchText)
+        let hasSynonym = synonymService.searchWord(searchText) != nil
+        let hasRichWord = dictionaryService.searchWord(searchText) != nil
+        let hasCollins = collinsService.searchWord(searchText) != nil
 
-        if synonym != nil {
+        if hasSynonym || hasRichWord || hasCollins {
             selectWord(searchText)
         } else if let firstSuggestion = suggestions.first {
             selectWord(firstSuggestion)
@@ -86,22 +89,68 @@ class SearchViewModel: ObservableObject {
     }
     
     private func loadWord(_ word: String, addToHistory: Bool = true) {
-        let foundSynonym = synonymService.searchWord(word)
+        guard populateContent(for: word) else { return }
 
-        if foundSynonym != nil {
-            synonymHTML = foundSynonym
-            showWordDetail = true
-            suppressSuggestions = true
-            searchText = word
-            suggestions = []
-            if addToHistory {
-                navigationManager.addToHistory(word)
-            }
-            selectedTab = .synonym
+        showWordDetail = true
+        suppressSuggestions = true
+        searchText = word
+        suggestions = []
+        if addToHistory {
+            navigationManager.addToHistory(word)
         }
+    }
+
+    /// Populates collinsHTML, synonymHTML, and selectedTab for the given word.
+    /// Returns true if at least one source has content.
+    @discardableResult
+    private func populateContent(for word: String) -> Bool {
+        synonymHTML = synonymService.searchWord(word)
+        collinsHTML = collinsService.searchWord(word)
+
+        // Fall back to rich dictionary for synonym tab if no synonym entry
+        if synonymHTML == nil, let wordData = dictionaryService.searchWord(word) {
+            synonymHTML = Self.generateHTML(from: wordData)
+        }
+
+        guard synonymHTML != nil || collinsHTML != nil else { return false }
+
+        // Default to Collins if available, otherwise Synonym
+        selectedTab = collinsHTML != nil ? .collins : .synonym
+        return true
     }
     
     func lookupWordFromText(_ word: String) {
         selectWord(word)
+    }
+
+    /// Converts a `Word` object into an HTML string for display in `HTMLContentView`.
+    private static func generateHTML(from word: Word) -> String {
+        let escapedWord = word.word.capitalized.htmlEscaped
+        let escapedPos = word.posDescription.htmlEscaped
+        var html = "<h2>\(escapedWord) <span style=\"font-weight: normal; font-size: 0.7em; color: #666;\">\(escapedPos)</span></h2>"
+
+        for (index, definition) in word.definitions.enumerated() {
+            html += "<h4>Definition \(index + 1)</h4>"
+            html += "<p>\(definition.meaning.htmlEscaped)</p>"
+
+            if !definition.examples.isEmpty {
+                html += "<p><strong>Examples:</strong></p>"
+                for example in definition.examples {
+                    html += "<p style=\"padding-left: 10px;\">\u{2022} \(example.sentence.htmlEscaped)</p>"
+                }
+            }
+        }
+
+        return html
+    }
+}
+
+private extension String {
+    var htmlEscaped: String {
+        self.replacingOccurrences(of: "&", with: "&amp;")
+            .replacingOccurrences(of: "<", with: "&lt;")
+            .replacingOccurrences(of: ">", with: "&gt;")
+            .replacingOccurrences(of: "\"", with: "&quot;")
+            .replacingOccurrences(of: "'", with: "&#39;")
     }
 }
