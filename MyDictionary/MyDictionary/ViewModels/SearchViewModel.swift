@@ -112,21 +112,34 @@ class SearchViewModel: ObservableObject {
         selectWord(word)
     }
 
+    /// Converts a `Word` object into an HTML string for display in `HTMLContentView`.
     private static func generateHTML(from word: Word) -> String {
-        var html = "<h2>\(word.word.capitalized) <span style=\"font-weight: normal; font-size: 0.7em; color: #666;\">\(word.posDescription)</span></h2>"
+        let escapedWord = word.word.capitalized.htmlEscaped
+        let escapedPos = word.posDescription.htmlEscaped
+        var html = "<h2>\(escapedWord) <span style=\"font-weight: normal; font-size: 0.7em; color: #666;\">\(escapedPos)</span></h2>"
 
         for (index, definition) in word.definitions.enumerated() {
             html += "<h4>Definition \(index + 1)</h4>"
-            html += "<p>\(definition.meaning)</p>"
+            html += "<p>\(definition.meaning.htmlEscaped)</p>"
 
             if !definition.examples.isEmpty {
                 html += "<p><strong>Examples:</strong></p>"
                 for example in definition.examples {
-                    html += "<p style=\"padding-left: 10px;\">\u{2022} \(example.sentence)</p>"
+                    html += "<p style=\"padding-left: 10px;\">\u{2022} \(example.sentence.htmlEscaped)</p>"
                 }
             }
         }
 
         return html
+    }
+}
+
+private extension String {
+    var htmlEscaped: String {
+        self.replacingOccurrences(of: "&", with: "&amp;")
+            .replacingOccurrences(of: "<", with: "&lt;")
+            .replacingOccurrences(of: ">", with: "&gt;")
+            .replacingOccurrences(of: "\"", with: "&quot;")
+            .replacingOccurrences(of: "'", with: "&#39;")
     }
 }
