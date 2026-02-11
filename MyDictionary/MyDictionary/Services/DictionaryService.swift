@@ -5,7 +5,7 @@ class DictionaryService: DictionaryProvider {
     
     // Rich dictionary with full definitions (from dictionary_data.json)
     private var richWords: [String: Word] = [:]
-    // Comprehensive sorted word list (from words_alpha.txt)
+    // Sorted word list for search suggestions
     private var wordList: [String] = []
     // Set for O(1) word existence checks
     private var wordSet: Set<String> = []
@@ -13,24 +13,8 @@ class DictionaryService: DictionaryProvider {
     private let maxLengthDifferenceForFuzzyMatch = 2
     
     private init() {
-        loadWordList()
         loadRichDictionary()
         loadSynonymWords()
-    }
-    
-    // Load the comprehensive word list from words_alpha.txt
-    private func loadWordList() {
-        guard let url = Bundle.main.url(forResource: "words_alpha", withExtension: "txt"),
-              let content = try? String(contentsOf: url, encoding: .utf8) else {
-            return
-        }
-        
-        let words = content.components(separatedBy: .newlines)
-            .map { $0.trimmingCharacters(in: .whitespaces).lowercased() }
-            .filter { !$0.isEmpty }
-        
-        wordSet = Set(words)
-        wordList = words.sorted()
     }
     
     // Load the rich dictionary with definitions from dictionary_data.json

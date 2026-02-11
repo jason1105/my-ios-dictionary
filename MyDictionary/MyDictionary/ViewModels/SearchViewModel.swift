@@ -46,25 +46,29 @@ class SearchViewModel: ObservableObject {
     }
     
     func selectWord(_ word: String) {
-        let foundSynonym = synonymService.searchWord(word)
-
-        if foundSynonym != nil {
+        if let foundSynonym = synonymService.searchWord(word) {
             synonymHTML = foundSynonym
-            showWordDetail = true
-            navigationManager.addToHistory(word)
-            suppressSuggestions = true
-            searchText = word
-            suggestions = []
-            selectedTab = .synonym
+        } else if let wordData = dictionaryService.searchWord(word) {
+            synonymHTML = Self.generateHTML(from: wordData)
+        } else {
+            return
         }
+
+        showWordDetail = true
+        navigationManager.addToHistory(word)
+        suppressSuggestions = true
+        searchText = word
+        suggestions = []
+        selectedTab = .synonym
     }
     
     func searchCurrentText() {
         guard !searchText.isEmpty else { return }
 
-        let synonym = synonymService.searchWord(searchText)
+        let hasSynonym = synonymService.searchWord(searchText) != nil
+        let hasRichWord = dictionaryService.searchWord(searchText) != nil
 
-        if synonym != nil {
+        if hasSynonym || hasRichWord {
             selectWord(searchText)
         } else if let firstSuggestion = suggestions.first {
             selectWord(firstSuggestion)
@@ -86,22 +90,43 @@ class SearchViewModel: ObservableObject {
     }
     
     private func loadWord(_ word: String, addToHistory: Bool = true) {
-        let foundSynonym = synonymService.searchWord(word)
-
-        if foundSynonym != nil {
+        if let foundSynonym = synonymService.searchWord(word) {
             synonymHTML = foundSynonym
-            showWordDetail = true
-            suppressSuggestions = true
-            searchText = word
-            suggestions = []
-            if addToHistory {
-                navigationManager.addToHistory(word)
-            }
-            selectedTab = .synonym
+        } else if let wordData = dictionaryService.searchWord(word) {
+            synonymHTML = Self.generateHTML(from: wordData)
+        } else {
+            return
         }
+
+        showWordDetail = true
+        suppressSuggestions = true
+        searchText = word
+        suggestions = []
+        if addToHistory {
+            navigationManager.addToHistory(word)
+        }
+        selectedTab = .synonym
     }
     
     func lookupWordFromText(_ word: String) {
         selectWord(word)
+    }
+
+    private static func generateHTML(from word: Word) -> String {
+        var html = "<h2>\(word.word.capitalized) <span style=\"font-weight: normal; font-size: 0.7em; color: #666;\">\(word.posDescription)</span></h2>"
+
+        for (index, definition) in word.definitions.enumerated() {
+            html += "<h4>Definition \(index + 1)</h4>"
+            html += "<p>\(definition.meaning)</p>"
+
+            if !definition.examples.isEmpty {
+                html += "<p><strong>Examples:</strong></p>"
+                for example in definition.examples {
+                    html += "<p style=\"padding-left: 10px;\">\u{2022} \(example.sentence)</p>"
+                }
+            }
+        }
+
+        return html
     }
 }
