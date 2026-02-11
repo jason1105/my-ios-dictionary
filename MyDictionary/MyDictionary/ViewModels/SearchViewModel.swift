@@ -5,11 +5,13 @@ class SearchViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var suggestions: [String] = []
     @Published var showWordDetail: Bool = false
-    @Published var selectedTab: DictionaryTab = .synonym
+    @Published var selectedTab: DictionaryTab = .collins
     @Published var synonymHTML: String?
+    @Published var collinsHTML: String?
 
     private let dictionaryService = DictionaryService.shared
     private let synonymService = SynonymDictionaryService.shared
+    private let collinsService = CollinsDictionaryService.shared
     private var cancellables = Set<AnyCancellable>()
     private var suppressSuggestions = false
     let navigationManager = NavigationManager()
@@ -17,6 +19,9 @@ class SearchViewModel: ObservableObject {
     // Compute which tabs have content for the current word
     var availableTabs: [DictionaryTab] {
         var tabs: [DictionaryTab] = []
+        if collinsHTML != nil {
+            tabs.append(.collins)
+        }
         if synonymHTML != nil {
             tabs.append(.synonym)
         }
@@ -46,20 +51,29 @@ class SearchViewModel: ObservableObject {
     }
     
     func selectWord(_ word: String) {
-        if let foundSynonym = synonymService.searchWord(word) {
-            synonymHTML = foundSynonym
-        } else if let wordData = dictionaryService.searchWord(word) {
+        synonymHTML = synonymService.searchWord(word)
+        collinsHTML = collinsService.searchWord(word)
+
+        // Fall back to rich dictionary for synonym tab if no synonym entry
+        if synonymHTML == nil, let wordData = dictionaryService.searchWord(word) {
             synonymHTML = Self.generateHTML(from: wordData)
-        } else {
-            return
         }
+
+        // Only show detail if at least one source has content
+        guard synonymHTML != nil || collinsHTML != nil else { return }
 
         showWordDetail = true
         navigationManager.addToHistory(word)
         suppressSuggestions = true
         searchText = word
         suggestions = []
-        selectedTab = .synonym
+
+        // Default to Collins if available, otherwise Synonym
+        if collinsHTML != nil {
+            selectedTab = .collins
+        } else {
+            selectedTab = .synonym
+        }
     }
     
     func searchCurrentText() {
@@ -67,8 +81,9 @@ class SearchViewModel: ObservableObject {
 
         let hasSynonym = synonymService.searchWord(searchText) != nil
         let hasRichWord = dictionaryService.searchWord(searchText) != nil
+        let hasCollins = collinsService.searchWord(searchText) != nil
 
-        if hasSynonym || hasRichWord {
+        if hasSynonym || hasRichWord || hasCollins {
             selectWord(searchText)
         } else if let firstSuggestion = suggestions.first {
             selectWord(firstSuggestion)
@@ -90,13 +105,15 @@ class SearchViewModel: ObservableObject {
     }
     
     private func loadWord(_ word: String, addToHistory: Bool = true) {
-        if let foundSynonym = synonymService.searchWord(word) {
-            synonymHTML = foundSynonym
-        } else if let wordData = dictionaryService.searchWord(word) {
+        synonymHTML = synonymService.searchWord(word)
+        collinsHTML = collinsService.searchWord(word)
+
+        // Fall back to rich dictionary for synonym tab if no synonym entry
+        if synonymHTML == nil, let wordData = dictionaryService.searchWord(word) {
             synonymHTML = Self.generateHTML(from: wordData)
-        } else {
-            return
         }
+
+        guard synonymHTML != nil || collinsHTML != nil else { return }
 
         showWordDetail = true
         suppressSuggestions = true
@@ -105,7 +122,13 @@ class SearchViewModel: ObservableObject {
         if addToHistory {
             navigationManager.addToHistory(word)
         }
-        selectedTab = .synonym
+
+        // Default to Collins if available, otherwise Synonym
+        if collinsHTML != nil {
+            selectedTab = .collins
+        } else {
+            selectedTab = .synonym
+        }
     }
     
     func lookupWordFromText(_ word: String) {

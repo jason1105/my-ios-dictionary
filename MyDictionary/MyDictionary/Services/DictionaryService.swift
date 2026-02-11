@@ -15,6 +15,7 @@ class DictionaryService: DictionaryProvider {
     private init() {
         loadRichDictionary()
         loadSynonymWords()
+        loadCollinsWords()
     }
     
     // Load the rich dictionary with definitions from dictionary_data.json
@@ -35,6 +36,13 @@ class DictionaryService: DictionaryProvider {
     // Load synonym dictionary words into the word list for search suggestions
     private func loadSynonymWords() {
         for word in SynonymDictionaryService.shared.getAllWords() {
+            insertWordInSortedOrder(word.lowercased())
+        }
+    }
+    
+    // Load Collins dictionary words into the word list for search suggestions
+    private func loadCollinsWords() {
+        for word in CollinsDictionaryService.shared.getAllWords() {
             insertWordInSortedOrder(word.lowercased())
         }
     }
