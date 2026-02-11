@@ -4,6 +4,7 @@ class CollinsDictionaryService {
     static let shared = CollinsDictionaryService()
     
     private var collinsEntries: [String: String] = [:]
+    private var sortedWords: [String] = []
     
     private init() {
         loadCollinsDictionary()
@@ -16,6 +17,7 @@ class CollinsDictionaryService {
             return
         }
         collinsEntries = entries
+        sortedWords = entries.keys.sorted()
     }
     
     func searchWord(_ word: String) -> String? {
@@ -24,7 +26,7 @@ class CollinsDictionaryService {
     }
     
     func getAllWords() -> [String] {
-        return Array(collinsEntries.keys).sorted()
+        return sortedWords
     }
     
     func hasWord(_ word: String) -> Bool {

@@ -42,9 +42,42 @@ class DictionaryService: DictionaryProvider {
     
     // Load Collins dictionary words into the word list for search suggestions
     private func loadCollinsWords() {
-        for word in CollinsDictionaryService.shared.getAllWords() {
-            insertWordInSortedOrder(word.lowercased())
+        let collinsWords = CollinsDictionaryService.shared.getAllWords()
+        // Since collinsWords is already sorted, merge it with the existing sorted wordList
+        var merged: [String] = []
+        merged.reserveCapacity(wordList.count + collinsWords.count)
+        var i = 0, j = 0
+        while i < wordList.count && j < collinsWords.count {
+            let w = collinsWords[j].lowercased()
+            if wordList[i] < w {
+                merged.append(wordList[i])
+                i += 1
+            } else if wordList[i] > w {
+                if !wordSet.contains(w) {
+                    wordSet.insert(w)
+                    merged.append(w)
+                }
+                j += 1
+            } else {
+                // Equal - keep existing, skip duplicate
+                merged.append(wordList[i])
+                i += 1
+                j += 1
+            }
         }
+        while i < wordList.count {
+            merged.append(wordList[i])
+            i += 1
+        }
+        while j < collinsWords.count {
+            let w = collinsWords[j].lowercased()
+            if !wordSet.contains(w) {
+                wordSet.insert(w)
+                merged.append(w)
+            }
+            j += 1
+        }
+        wordList = merged
     }
     
     // Insert a word into the sorted word list if not already present

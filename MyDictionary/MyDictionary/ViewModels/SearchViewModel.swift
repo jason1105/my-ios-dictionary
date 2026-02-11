@@ -51,29 +51,13 @@ class SearchViewModel: ObservableObject {
     }
     
     func selectWord(_ word: String) {
-        synonymHTML = synonymService.searchWord(word)
-        collinsHTML = collinsService.searchWord(word)
-
-        // Fall back to rich dictionary for synonym tab if no synonym entry
-        if synonymHTML == nil, let wordData = dictionaryService.searchWord(word) {
-            synonymHTML = Self.generateHTML(from: wordData)
-        }
-
-        // Only show detail if at least one source has content
-        guard synonymHTML != nil || collinsHTML != nil else { return }
+        guard populateContent(for: word) else { return }
 
         showWordDetail = true
         navigationManager.addToHistory(word)
         suppressSuggestions = true
         searchText = word
         suggestions = []
-
-        // Default to Collins if available, otherwise Synonym
-        if collinsHTML != nil {
-            selectedTab = .collins
-        } else {
-            selectedTab = .synonym
-        }
     }
     
     func searchCurrentText() {
@@ -105,15 +89,7 @@ class SearchViewModel: ObservableObject {
     }
     
     private func loadWord(_ word: String, addToHistory: Bool = true) {
-        synonymHTML = synonymService.searchWord(word)
-        collinsHTML = collinsService.searchWord(word)
-
-        // Fall back to rich dictionary for synonym tab if no synonym entry
-        if synonymHTML == nil, let wordData = dictionaryService.searchWord(word) {
-            synonymHTML = Self.generateHTML(from: wordData)
-        }
-
-        guard synonymHTML != nil || collinsHTML != nil else { return }
+        guard populateContent(for: word) else { return }
 
         showWordDetail = true
         suppressSuggestions = true
@@ -122,13 +98,25 @@ class SearchViewModel: ObservableObject {
         if addToHistory {
             navigationManager.addToHistory(word)
         }
+    }
+
+    /// Populates collinsHTML, synonymHTML, and selectedTab for the given word.
+    /// Returns true if at least one source has content.
+    @discardableResult
+    private func populateContent(for word: String) -> Bool {
+        synonymHTML = synonymService.searchWord(word)
+        collinsHTML = collinsService.searchWord(word)
+
+        // Fall back to rich dictionary for synonym tab if no synonym entry
+        if synonymHTML == nil, let wordData = dictionaryService.searchWord(word) {
+            synonymHTML = Self.generateHTML(from: wordData)
+        }
+
+        guard synonymHTML != nil || collinsHTML != nil else { return false }
 
         // Default to Collins if available, otherwise Synonym
-        if collinsHTML != nil {
-            selectedTab = .collins
-        } else {
-            selectedTab = .synonym
-        }
+        selectedTab = collinsHTML != nil ? .collins : .synonym
+        return true
     }
     
     func lookupWordFromText(_ word: String) {
