@@ -6,11 +6,26 @@ class SearchViewModel: ObservableObject {
     @Published var suggestions: [String] = []
     @Published var selectedWord: Word?
     @Published var showWordDetail: Bool = false
+    @Published var selectedTab: DictionaryTab = .dictionary
+    @Published var synonymHTML: String?
     
     private let dictionaryService = DictionaryService.shared
+    private let synonymService = SynonymDictionaryService.shared
     private var cancellables = Set<AnyCancellable>()
     private var suppressSuggestions = false
     let navigationManager = NavigationManager()
+    
+    // Compute which tabs have content for the current word
+    var availableTabs: [DictionaryTab] {
+        var tabs: [DictionaryTab] = []
+        if selectedWord != nil {
+            tabs.append(.dictionary)
+        }
+        if synonymHTML != nil {
+            tabs.append(.synonym)
+        }
+        return tabs
+    }
     
     init() {
         // Set up search text monitoring with debounce
@@ -35,21 +50,29 @@ class SearchViewModel: ObservableObject {
     }
     
     func selectWord(_ word: String) {
-        if let foundWord = dictionaryService.searchWord(word) {
+        let foundWord = dictionaryService.searchWord(word)
+        let foundSynonym = synonymService.searchWord(word)
+        
+        if foundWord != nil || foundSynonym != nil {
             selectedWord = foundWord
+            synonymHTML = foundSynonym
             showWordDetail = true
             navigationManager.addToHistory(word)
             suppressSuggestions = true
             searchText = word
             suggestions = []
+            selectFirstAvailableTab()
         }
     }
     
     func searchCurrentText() {
         guard !searchText.isEmpty else { return }
         
-        if let word = dictionaryService.searchWord(searchText) {
-            selectWord(word.word)
+        let word = dictionaryService.searchWord(searchText)
+        let synonym = synonymService.searchWord(searchText)
+        
+        if word != nil || synonym != nil {
+            selectWord(word?.word ?? searchText)
         } else if let firstSuggestion = suggestions.first {
             selectWord(firstSuggestion)
         }
@@ -70,8 +93,12 @@ class SearchViewModel: ObservableObject {
     }
     
     private func loadWord(_ word: String, addToHistory: Bool = true) {
-        if let foundWord = dictionaryService.searchWord(word) {
+        let foundWord = dictionaryService.searchWord(word)
+        let foundSynonym = synonymService.searchWord(word)
+        
+        if foundWord != nil || foundSynonym != nil {
             selectedWord = foundWord
+            synonymHTML = foundSynonym
             showWordDetail = true
             suppressSuggestions = true
             searchText = word
@@ -79,6 +106,15 @@ class SearchViewModel: ObservableObject {
             if addToHistory {
                 navigationManager.addToHistory(word)
             }
+            selectFirstAvailableTab()
+        }
+    }
+    
+    private func selectFirstAvailableTab() {
+        if selectedWord != nil {
+            selectedTab = .dictionary
+        } else if synonymHTML != nil {
+            selectedTab = .synonym
         }
     }
     

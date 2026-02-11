@@ -1,5 +1,13 @@
 import Foundation
 
+// Enum representing available dictionary tabs
+enum DictionaryTab: String, CaseIterable, Identifiable {
+    case dictionary = "Dictionary"
+    case synonym = "Synonym"
+    
+    var id: String { rawValue }
+}
+
 // Protocol for extensible dictionary architecture
 protocol DictionaryProvider {
     func searchWord(_ word: String) -> Word?

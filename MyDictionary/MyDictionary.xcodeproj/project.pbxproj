@@ -19,6 +19,9 @@
 		AA0000130000000000000001 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000140000000000000001 /* NavigationManager.swift */; };
 		AA0000150000000000000001 /* ClickableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000160000000000000001 /* ClickableText.swift */; };
 		AA00002B0000000000000001 /* words_alpha.txt in Resources */ = {isa = PBXBuildFile; fileRef = AA00002C0000000000000001 /* words_alpha.txt */; };
+		AA00003A0000000000000001 /* SynonymDictionaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00003B0000000000000001 /* SynonymDictionaryService.swift */; };
+		AA00003C0000000000000001 /* HTMLContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00003D0000000000000001 /* HTMLContentView.swift */; };
+		AA00003E0000000000000001 /* easier_synonym_data.json in Resources */ = {isa = PBXBuildFile; fileRef = AA00003F0000000000000001 /* easier_synonym_data.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +38,9 @@
 		AA0000140000000000000001 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		AA0000160000000000000001 /* ClickableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickableText.swift; sourceTree = "<group>"; };
 		AA00002C0000000000000001 /* words_alpha.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = words_alpha.txt; sourceTree = "<group>"; };
+		AA00003B0000000000000001 /* SynonymDictionaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynonymDictionaryService.swift; sourceTree = "<group>"; };
+		AA00003D0000000000000001 /* HTMLContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLContentView.swift; sourceTree = "<group>"; };
+		AA00003F0000000000000001 /* easier_synonym_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = easier_synonym_data.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +98,7 @@
 			children = (
 				AA0000080000000000000001 /* DictionaryService.swift */,
 				AA0000140000000000000001 /* NavigationManager.swift */,
+				AA00003B0000000000000001 /* SynonymDictionaryService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -110,6 +117,7 @@
 				AA00000E0000000000000001 /* WordDetailView.swift */,
 				AA0000100000000000000001 /* WordPopoverView.swift */,
 				AA0000160000000000000001 /* ClickableText.swift */,
+				AA00003D0000000000000001 /* HTMLContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -119,6 +127,7 @@
 			children = (
 				AA0000120000000000000001 /* dictionary_data.json */,
 				AA00002C0000000000000001 /* words_alpha.txt */,
+				AA00003F0000000000000001 /* easier_synonym_data.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -184,6 +193,7 @@
 				AA0000050000000000000001 /* Assets.xcassets in Resources */,
 				AA0000110000000000000001 /* dictionary_data.json in Resources */,
 				AA00002B0000000000000001 /* words_alpha.txt in Resources */,
+				AA00003E0000000000000001 /* easier_synonym_data.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,6 +213,8 @@
 				AA00000F0000000000000001 /* WordPopoverView.swift in Sources */,
 				AA0000130000000000000001 /* NavigationManager.swift in Sources */,
 				AA0000150000000000000001 /* ClickableText.swift in Sources */,
+				AA00003A0000000000000001 /* SynonymDictionaryService.swift in Sources */,
+				AA00003C0000000000000001 /* HTMLContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

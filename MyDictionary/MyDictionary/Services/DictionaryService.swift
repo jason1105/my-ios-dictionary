@@ -15,6 +15,7 @@ class DictionaryService: DictionaryProvider {
     private init() {
         loadWordList()
         loadRichDictionary()
+        loadSynonymWords()
     }
     
     // Load the comprehensive word list from words_alpha.txt
@@ -43,13 +44,23 @@ class DictionaryService: DictionaryProvider {
         for word in wordArray {
             let key = word.word.lowercased()
             richWords[key] = word
-            // Ensure rich dictionary words are also in the word list
-            if !wordSet.contains(key) {
-                wordSet.insert(key)
-                // Insert into sorted position
-                let insertIndex = wordList.firstIndex(where: { $0 > key }) ?? wordList.endIndex
-                wordList.insert(key, at: insertIndex)
-            }
+            insertWordInSortedOrder(key)
+        }
+    }
+    
+    // Load synonym dictionary words into the word list for search suggestions
+    private func loadSynonymWords() {
+        for word in SynonymDictionaryService.shared.getAllWords() {
+            insertWordInSortedOrder(word.lowercased())
+        }
+    }
+    
+    // Insert a word into the sorted word list if not already present
+    private func insertWordInSortedOrder(_ key: String) {
+        if !wordSet.contains(key) {
+            wordSet.insert(key)
+            let insertIndex = wordList.firstIndex(where: { $0 > key }) ?? wordList.endIndex
+            wordList.insert(key, at: insertIndex)
         }
     }
     
